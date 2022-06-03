@@ -10,15 +10,18 @@ const getUser = (req = request , res = response) => {
 
   const putUser = (req = req.query, res) => {
     //ojo con eso asi capturamosd el req
-    const body = req.body;
+    const {nombre, edad} = req.body;
     const params = req.query;
+    const {q,apikey } = req.query;
     //ojo con esto asi podemos capturar data de body
-    const {nombre, edad } = req.body;
+    
     res.json({
         msg:'put api- controller',
          nombre,
          edad,
-         query
+         q,
+         apikey
+         
     })
   }
   
