@@ -13,8 +13,11 @@ constructor(){
     this.routes();
 }
 middlewares(){
-    //directorio publico
+    //cors
     this.app.use(cors());
+    //Parseo y lectura del body
+    this.app.use(express.json())
+    //directorio publico
     this.app.use(express.static('public'));
 }
   
