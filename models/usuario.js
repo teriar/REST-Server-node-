@@ -33,5 +33,10 @@ const UsuariosSchema= Schema({
     },
 });
 
+UsuariosSchema.methods.toJSON = function(){
+    //para quitar  el __v y password en el response de la ruta
+    const {__v , password, ...usuario} = this.toObject();
+    return usuario
+}
 
 module.exports=model('Usuario', UsuariosSchema);
