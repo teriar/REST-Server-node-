@@ -29,7 +29,7 @@ const getUser = (req = request , res = response) => {
   }
   
   const postUser = async (req = request, res = response) => {
-    //control de errores
+    
    
     
     const {nombre,correo,password,rol} = req.body;
@@ -45,7 +45,7 @@ const getUser = (req = request , res = response) => {
 
     //encryptar contraseña
     const salt = bcrypjs.genSaltSync();
-    usuario.password = bcrypjs.hashSync(password, salt);
+    usuario.password = await  bcrypjs.hashSync(password, salt);
     //guardar en bd
     await usuario.save();
 
