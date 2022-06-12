@@ -6,6 +6,6 @@ rol :{
     required:[true,'El rol es obligatorio' ],
 }
 })
-
+  
 
 module.exports = model('Role', RoleSchema)

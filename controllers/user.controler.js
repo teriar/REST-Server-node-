@@ -1,5 +1,5 @@
 const { response, request } = require('express');  
-const bcrypjs = require('bcryptjs');
+const{encryptPassword} = require('../helpers/db-validators');
 const Usuarios = require('../models/usuario');
 
 
@@ -11,20 +11,23 @@ const getUser = (req = request , res = response) => {
     })
   }
 
-  const putUser = (req = req.query, res) => {
+  const putUser = async(req=request  , res = response) => {
     //ojo con eso asi capturamosd el req
-    const {nombre, edad} = req.body;
-    const params = req.query;
-    const {q,apikey } = req.query;
+    // const {nombre, edad} = req.body;
+    // const params = req.query;
+    // const {q,apikey } = req.query;
     //ojo con esto asi podemos capturar data de body
-    
+    const {id} = req.params;
+    const {_id,password,google,correo, ... resto} = req.body;
+    //validar contra base de datos
+    if(password){
+      resto.password = await encryptPassword(password);
+    }
+    const usuario = await Usuarios.findByIdAndUpdate(id,resto, {new: true});
+
     res.json({
-        msg:'put api- controller',
-         nombre,
-         edad,
-         q,
-         apikey
-         
+        msg:'put api- controller', 
+        usuario
     })
   }
   
@@ -36,8 +39,7 @@ const getUser = (req = request , res = response) => {
     const usuario= new Usuarios({nombre,correo,password,rol});
     
     //encryptar contraseña
-    const salt = bcrypjs.genSaltSync();
-    usuario.password = await  bcrypjs.hashSync(password, salt);
+    usuario.password = await  encryptPassword(usuario.password);
     //guardar en bd
     await usuario.save();
 
