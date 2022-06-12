@@ -10,7 +10,7 @@ const { getUser,
 
 const router = Router();
 
-router.get('/:id', getUser)
+router.get('/', getUser)
 
 
 router.put('/:id',[

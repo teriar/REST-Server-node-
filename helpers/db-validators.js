@@ -10,8 +10,9 @@ const bcrypjs = require('bcryptjs');
 }
 
 const existeEmail = async(correo= '')=>{ 
-       await Usuario.findOne({correo});
-      if(existeEmail){
+     const existeEmailVerificacion =  await Usuario.findOne({correo});
+
+      if(existeEmailVerificacion){
        throw new Error(`El correo ${correo} ya esta en uso`);
       }   
     }

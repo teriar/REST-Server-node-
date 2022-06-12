@@ -1,14 +1,34 @@
 const { response, request } = require('express');  
 const{encryptPassword} = require('../helpers/db-validators');
-const Usuarios = require('../models/usuario');
+const Usuario = require('../models/usuario');
 
 
 
 
-const getUser = (req = request , res = response) => {
-    res.json({
-        msg:'get api - controller '
+const getUser = async(req = request , res = response) => {
+  const{ limit=0, since = 0 } =  req.query;
+  const query = {estado:true}
+  if(limit != Number(limit) || since != Number(since) ){
+    
+      res.json({msg:'the parameters is not numeric'})
+      return
+  }
+  // const usuarios = await Usuario.find(query)
+  // .skip(Number(since))
+  // .limit(Number(limit));
+
+  // const total = await Usuario.countDocuments(query) - since;
+  const [total,usuarios] =  await Promise.all([
+    Usuario.countDocuments(query),
+    Usuario.find(query)
+  .skip(Number(since))
+  .limit(Number(limit))
+  ]);
+  res.json({
+        total,
+        usuarios
     })
+
   }
 
   const putUser = async(req=request  , res = response) => {
@@ -23,12 +43,9 @@ const getUser = (req = request , res = response) => {
     if(password){
       resto.password = await encryptPassword(password);
     }
-    const usuario = await Usuarios.findByIdAndUpdate(id,resto, {new: true});
+    const usuario = await Usuario.findByIdAndUpdate(id,resto, {new: true});
 
-    res.json({
-        msg:'put api- controller', 
-        usuario
-    })
+    res.json(usuario)
   }
   
   const postUser = async (req = request, res = response) => {
@@ -36,7 +53,7 @@ const getUser = (req = request , res = response) => {
    
     
     const {nombre,correo,password,rol} = req.body;
-    const usuario= new Usuarios({nombre,correo,password,rol});
+    const usuario= new Usuario({nombre,correo,password,rol});
     
     //encryptar contraseña
     usuario.password = await  encryptPassword(usuario.password);
