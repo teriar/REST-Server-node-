@@ -19,7 +19,6 @@ async conectarDB(){
     
     await dbConnection()
 }
-
 middlewares(){
     //cors
     this.app.use(cors());
