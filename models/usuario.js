@@ -35,7 +35,8 @@ const UsuariosSchema= Schema({
 
 UsuariosSchema.methods.toJSON = function(){
     //para quitar  el __v y password en el response de la ruta
-    const {__v , password, ...usuario} = this.toObject();
+    const {__v , password,_id, ...usuario} = this.toObject();
+    usuario.uid=_id;
     return usuario
 }
 

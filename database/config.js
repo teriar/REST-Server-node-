@@ -5,8 +5,7 @@ const dbConnection = async() => {
     
 try{
 await mongoose.connect(process.env.MONGODB_CNN)
-.then(console.log("Conexion exitosa"))
-.catch( err => console.log(err))
+console.log('Conexion establecida con la BD');
 
 }catch(error){
     console.log(error);
