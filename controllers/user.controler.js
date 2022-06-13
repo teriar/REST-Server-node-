@@ -67,13 +67,18 @@ const getUser = async(req = request , res = response) => {
   } 
   const deleteUser =  async(req = request, res = response) => {
     const {id} = req.params;
+    
+        const uid = req.usuario
    //fisicamente eliminado 
   //  const usuario = await Usuario.findByIdAndDelete(id);
       const usuario = await Usuario.findByIdAndUpdate(id,{estado:false});
 
         
    
-   res.json(usuario)
+   res.json({
+    usuario,
+    uid
+  })
   }
   module.exports = {
       getUser,
