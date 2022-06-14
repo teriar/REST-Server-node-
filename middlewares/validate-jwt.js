@@ -29,8 +29,8 @@ const validateJWT= async (req = request,res = response,netx) => {
         msg:'Token no valido - usuario con estado en false'
     });
    }
-
-    req.usuario = usuario;
+   req.usuario = usuario;
+  
      netx();
 
 
