@@ -52,6 +52,7 @@ const obtenerProducto = async (req,res)=>{
 }
 
 const crearProducto= async (req, res=response)=>{
+    
     const {nombre, categoria, descripcion = '',precio} = req.body;
     
   try{  
