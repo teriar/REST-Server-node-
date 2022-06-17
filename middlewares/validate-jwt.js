@@ -5,9 +5,10 @@ const validateJWT= async (req = request,res = response,netx) => {
     
     const token= req.header('x-token');
     
-    console.log(token)
+    
     
     if(!token){
+        console.log('dsa')
         return res.status(401).json({
             msg:'No hay token en la peticion'
         });
@@ -15,7 +16,7 @@ const validateJWT= async (req = request,res = response,netx) => {
     try{
      //VERIFICACION DE TOKEN 
     const {uid} = jwt.verify(token, process.env.SECRETKEY);
-  
+ 
     const usuario = await Usuario.findById(uid);
 
     if(!usuario){
